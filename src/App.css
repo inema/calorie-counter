@@ -1,0 +1,19 @@
+img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100px;
+}
+
+.search {
+  max-width: 50%;
+  min-width: 50%;
+}
+
+.search input{
+  margin: 0 auto;
+  display: block;
+}
+
+.flex-container {
+  display: flex;
+}

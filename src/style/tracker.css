@@ -1,0 +1,16 @@
+.tracker {
+  max-width: 50%;
+  min-width: 50%;
+}
+
+h2 {
+  text-align: center;
+}
+
+.tracker button {
+  margin-left: 20px;
+}
+
+.tracked-food {
+  margin-top: 20px;
+}
