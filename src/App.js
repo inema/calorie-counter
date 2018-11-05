@@ -1,28 +1,23 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import Finder from './components/finder';
+import Tracker from './components/tracker';
+import logo from './gini.jpe';
 import './App.css';
 
 class App extends Component {
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+    return (<div>
+      <img style={this.logoStyle} src={logo} alt="gini logo"/>
+      <div className="flex-container">
+        <Finder onTrack={this.handleTrack} />
+        <Tracker ref="tracker" />
       </div>
-    );
+    </div>);
   }
-}
 
+  handleTrack = food => {
+    this.refs.tracker.addFood(food);
+  }
+
+}
 export default App;
