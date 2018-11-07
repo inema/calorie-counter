@@ -15,7 +15,7 @@ class Tracker extends Component {
       {Object.keys(foods).map((food) =>
         <div className="tracked-food" key={food}>
           {food}: {foods[food].kcal} kcal
-          <input step="1" min="1" value={foods[food].num} type="number" className="form-control quantity" onChange={(event) => this.handleChange(food, event)}/>
+          <input step="1" min="1" value={foods[food].quantity} type="number" className="form-control quantity" onChange={(event) => this.handleChange(food, event)}/>
           <button onClick={() => this.handleDelete(food)} className="btn btn-danger btn-sm">delete</button>
         </div>)}
     </div>);
@@ -24,7 +24,7 @@ class Tracker extends Component {
   handleChange(food, event){
     const {foods} = this.state;
     console.log(foods)
-    foods[food].num = Number(event.target.value);
+    foods[food].quantity = Number(event.target.value);
     console.log(foods)
     this.setState({foods});
   }
@@ -32,9 +32,9 @@ class Tracker extends Component {
   addFood(food) {
     const {foods} = this.state;
     if (foods[food.name] === undefined){
-      foods[food.name] = {kcal: Number(food.kcal), num: Number(food.num)};
+      foods[food.name] = {kcal: Number(food.kcal), quantity: Number(food.quantity)};
     } else {
-      foods[food.name].num += Number(food.num);
+      foods[food.name].quantity += Number(food.quantity);
     }
     this.setState({foods});
   }
@@ -48,7 +48,7 @@ class Tracker extends Component {
   getTotal() {
     const {foods} = this.state;
     let sum = 0;
-    Object.keys(foods).map((food, index) => sum += foods[food].kcal*foods[food].num);
+    Object.keys(foods).map((food, index) => sum += foods[food].kcal*foods[food].quantity);
     return sum;
   }
 }
