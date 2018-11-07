@@ -13,10 +13,12 @@ class Tracker extends Component {
         <span className="label label-info">Total Calories: {this.getTotal()}</span>
       </h2>
       {Object.keys(foods).map((food) =>
-        <div className="tracked-food" key={food}>
-          {food}: {foods[food].kcal} kcal
-          <input step="1" min="1" value={foods[food].quantity} type="number" className="form-control quantity" onChange={(event) => this.handleChange(food, event)}/>
-          <button onClick={() => this.handleDelete(food)} className="btn btn-danger btn-sm">delete</button>
+        <div key={food}>
+          <div className="tracked-food">
+            {food}: {foods[food].kcal} kcal
+            <input step="1" min="1" value={foods[food].quantity} type="number" className="form-control quantity" onChange={(event) => this.handleChange(food, event)}/>
+            <button onClick={() => this.handleDelete(food)} className="btn btn-danger btn-sm">delete</button>
+          </div>
         </div>)}
     </div>);
   }

@@ -17,13 +17,15 @@ class Finder extends Component {
       <Search onSubmit={this.handleSubmit} onChange={this.handleChange} noSubmit={this.state.noSubmit}/>
       {this.getError()}
       {this.state.results.map((food, index) =>
-        <Result
-          food={food}
-          index={index}
-          key={index}
-          onTrack={this.props.onTrack}
-          onChange={this.handleQuantityChange}
-        />)}
+        <div key={index}>
+          <Result
+            food={food}
+            index={index}
+            key={index}
+            onTrack={this.props.onTrack}
+            onChange={this.handleQuantityChange}
+          />
+        </div>)}
       </div>
     );
   }
