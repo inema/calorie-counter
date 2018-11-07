@@ -28,7 +28,6 @@ class Finder extends Component {
     );
   }
 
-  //handles the case where no results loaded
   getError() {
     const {error} = this.state;
     if (error) {
@@ -50,8 +49,11 @@ class Finder extends Component {
     if (this.state.input === "") {
       return;
     }
+    //reset error in case there was one from before
+    //do not allow user to submit again
     this.setState({error: null, noSubmit: true});
     event.preventDefault();
+    //initial fetch gets the ndbno's of the searched food
     fetch(this.getNameURL()).then(res => res.json()).then((nameResult) => {
       this.fetchCalories(nameResult);
     }, (error) => {
@@ -70,6 +72,7 @@ class Finder extends Component {
     const results = [];
     const promises = [];
     for (let i = 0; i < nameResult.list.end; i++){
+      //fetches get the nutrients using the ndbno
       promises.push(fetch(this.getIdURL(nameResult.list.item[i].ndbno)).then(res => res.json()).then((idResult) => {
         if (idResult.report.foods[0].nutrients[0] !== undefined){
           results.push({
@@ -82,6 +85,7 @@ class Finder extends Component {
         return;
       }));
     }
+    //only set the state and enable submit once all the fetch calls have completed
     Promise.all(promises).then(() => {
       this.setState({results, noSubmit: false});
     })

@@ -23,9 +23,7 @@ class Tracker extends Component {
 
   handleChange(food, event){
     const {foods} = this.state;
-    console.log(foods)
     foods[food].quantity = Number(event.target.value);
-    console.log(foods)
     this.setState({foods});
   }
 
