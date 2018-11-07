@@ -1,0 +1,19 @@
+.result {
+  display: inline-flex;
+  margin-top: 20px;
+}
+
+.quantity {
+  margin-left: 20px !important;
+  max-width: 45px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.result button {
+  margin-left: 20px;
+}
+
+.result span {
+  white-space: nowrap;
+}

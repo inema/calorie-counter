@@ -16,5 +16,6 @@ h2 {
 }
 
 .tracked-food {
+  display: inline-flex;
   margin-top: 20px;
 }

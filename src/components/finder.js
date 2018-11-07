@@ -9,16 +9,21 @@ class Finder extends Component {
     error: null,
     isLoaded: false,
     name: "",
-    kcal: 0
+    kcal: 0,
+    quantity: 1
   };
 
   render() {
     return (
       <div className="search">
         <Search onSubmit={this.handleSubmit} onChange={this.handleChange}/>
-        <Result state={this.state} onTrack={this.props.onTrack}/>
+        <Result state={this.state} onTrack={this.props.onTrack} onChange={this.handleQuantityChange}/>
       </div>
     );
+  }
+
+  handleQuantityChange = event => {
+    this.setState({quantity: event.target.value});
   }
 
   handleChange = event => {
@@ -26,6 +31,7 @@ class Finder extends Component {
   }
 
   handleSubmit = event => {
+    this.setState({quantity: 1});
     if (this.state.input === "") {
       return;
     }
