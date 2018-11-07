@@ -7,26 +7,35 @@ class Finder extends Component {
   state = {
     input: "",
     error: null,
-    results: []
+    results: [],
+    noSubmit: false
   };
 
   render() {
     return (
       <div className="search">
-      <Search onSubmit={this.handleSubmit} onChange={this.handleChange}/>
+      <Search onSubmit={this.handleSubmit} onChange={this.handleChange} noSubmit={this.state.noSubmit}/>
       {this.getError()}
       {this.state.results.map((food, index) =>
-        <Result food={food} index={index} key={index} onTrack={this.props.onTrack} onChange={this.handleQuantityChange}/>)}
+        <Result
+          food={food}
+          index={index}
+          key={index}
+          onTrack={this.props.onTrack}
+          onChange={this.handleQuantityChange}
+        />)}
       </div>
     );
   }
 
+  //handles the case where no results loaded
   getError() {
     const {error} = this.state;
     if (error) {
       return <div className="result">{error}</div>;
     }
   }
+
   handleQuantityChange = index => event => {
     const {results} = this.state;
     results[index].quantity = event.target.value;
@@ -41,36 +50,41 @@ class Finder extends Component {
     if (this.state.input === "") {
       return;
     }
-    this.setState({error: null});
+    this.setState({error: null, noSubmit: true});
     event.preventDefault();
     fetch(this.getNameURL()).then(res => res.json()).then((nameResult) => {
       this.fetchCalories(nameResult);
     }, (error) => {
-      this.setState({error});
+      this.setState({error, noSubmit: false});
     })
   }
 
   fetchCalories(nameResult){
     if (nameResult.errors) {
-      this.setState({error: nameResult.errors.error[0].message, results: []});
+      this.setState({
+        error: nameResult.errors.error[0].message, results: [],
+        noSubmit: false
+      });
       return;
     }
     const results = [];
+    const promises = [];
     for (let i = 0; i < nameResult.list.end; i++){
-      fetch(this.getIdURL(nameResult.list.item[i].ndbno)).then(res => res.json()).then((idResult) => {
+      promises.push(fetch(this.getIdURL(nameResult.list.item[i].ndbno)).then(res => res.json()).then((idResult) => {
         if (idResult.report.foods[0].nutrients[0] !== undefined){
           results.push({
             name: idResult.report.foods[0].name,
             kcal: idResult.report.foods[0].nutrients[0].value,
             quantity: 1});
-          //need to set the state each time since is asynchronous
-          this.setState({results});
         }
       }, (error) => {
-        this.setState({error});
+        this.setState({error, noSubmit: false});
         return;
-      })
+      }));
     }
+    Promise.all(promises).then(() => {
+      this.setState({results, noSubmit: false});
+    })
   }
 
   getNameURL() {

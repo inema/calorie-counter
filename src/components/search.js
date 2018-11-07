@@ -6,7 +6,7 @@ class Search extends Component {
     return (
       <form onSubmit={this.props.onSubmit}>
         <input type="text" className="form-control search-bar" onChange={this.props.onChange}/>
-        <input type="submit" className="btn" value="Submit" />
+        <input type="submit" className="btn" value="Submit" disabled={this.props.noSubmit}/>
       </form>
     );
   }
